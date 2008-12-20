@@ -123,7 +123,8 @@ class MuniStop(db.Model):
     found_stops = {}
     
     # Do concentric queries until the max number of results is reached.
-    for params in GEOBOX_CONFIGS:
+    # Use only the first three geoboxes for search to reduce query overhead.
+    for params in GEOBOX_CONFIGS[:3]:
       if len(found_stops) >= max_results:
         break
       if params < min_params:

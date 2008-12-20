@@ -1,0 +1,30 @@
+For route predictions:
+http://www.nextbus.com/s/COM.NextBus.Servlets.XMLFeed?command=predictionsForMultiStops&a=sf-muni&stops=33|null|4224&key=6546363665
+
+<body copyright="All data copyright NextBus 2008. Allowed use is for noncommercial purposes only.">
+<predictions agencyTitle="San Francisco Muni" routeTitle="33-Stanyan" routeTag="33" routeCode="0" stopTitle="Fulton St & Arguello Blvd">
+<direction title="Outbound to Potrero & 25th St.">
+<prediction seconds="948" minutes="15" isDeparture="false" dirTag="33__OB1" block="3301"/>
+<prediction seconds="2148" minutes="35" isDeparture="false" dirTag="33__OB1" block="3302"/>
+</direction>
+<direction title="Outbound to Bryant & 17th St.">
+<prediction seconds="3390" minutes="56" isDeparture="false" dirTag="33__OB3" block="3304"/>
+<prediction seconds="4590" minutes="76" isDeparture="false" dirTag="33__OB3" block="3303"/>
+</direction>
+</predictions>
+<keyForNextTime value="3243147336838"/>
+</body>
+
+
+
+For vehicle locations:
+http://www.nextbus.com/s/COM.NextBus.Servlets.XMLFeed?command=vehicleLocations&a=sf-muni&r=33&t=0&key=1947645158130
+
+<body copyright="All data copyright NextBus 2008. Allowed use is for noncommercial purposes only.">
+<vehicle id="5431" routeTag="33" dirTag="33__OB1" lat="37.7635" lon="-122.41955" secsSinceReport="29" predictable="true" heading="355"/>
+<vehicle id="5429" routeTag="33" dirTag="33__OB1" lat="37.78695" lon="-122.45653" secsSinceReport="11" predictable="true" heading="218"/>
+<vehicle id="5464" routeTag="33" dirTag="33__IB2" lat="37.7513999" lon="-122.40687" secsSinceReport="45" predictable="true" heading="218"/>
+<vehicle id="5424" routeTag="33" dirTag="33__IB2" lat="37.76143" lon="-122.42602" secsSinceReport="29" predictable="true" heading="266"/>
+<lastTime time="1226217532668"/>
+<keyForNextTime value="1458294253479"/>
+</body>
