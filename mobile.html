@@ -1,0 +1,75 @@
+<html>
+<head>
+<script type="text/javascript" src="gears_init.js"></script>
+<script type="text/javascript">
+var geo = google.gears.factory.create('beta.geolocation');
+var endTime;
+var watchId;
+var updateId;
+
+function start(highAccuracy) {
+  var now = new Date();
+  endTime = now.getTime() + 5000;
+  watchId = geo.getCurrentPosition(function() {}, handleError, {enableHighAccuracy: highAccuracy});
+  updateId = window.setInterval('update();', 1000);
+}
+
+function update() {
+  var now = new Date();
+  if (now.getTime() >= endTime) {
+    var message = document.getElementById("message");
+    var text = document.createTextNode("Redirecting.");
+    try {
+      window.clearInterval(updateId);
+      geo.clearWatch(watchId);
+    } catch (e) {
+    }
+    if (geo.lastPosition == null) {
+      text = document.createTextNode("Could not find position.")
+      message.appendChild(text);
+    } else {
+      message.appendChild(text);
+      window.location = "/?lat=" + geo.lastPosition.latitude + "&lon=" + geo.lastPosition.longitude + "&num=15";
+    }
+  } else {
+    var dots = document.getElementById("dots");
+    var text = document.createTextNode(".");
+    dots.appendChild(text);
+  }
+}
+
+function handleError(positionError) {
+  if (positionError.code == 2) {
+    start(false);
+    return;
+  }
+  var message = document.getElementById("message");
+  var text = document.createTextNode("Attempt to get location failed: " + positionError.message);
+  message.appendChild(text);
+}
+
+function onLoad() {
+  if (!window.google || !google.gears) {
+    location.href = "http://gears.google.com/?action=install&message=" + 
+                    "To%20use%20Mutiny%27s%20auto-location%20feature%2C%20you%27ll%20need%20to%20install%20gears" +
+                    "&return=http%3A%2F%2Fmutiny.appspot.com%2Fmobile";
+  }
+  start(false);
+  return true;
+}
+</script>
+</head>
+<body onLoad="onLoad();">
+<div>Mutiny is waiting 5 seconds for location data<span id="dots">.</span></div>
+<div id="message"></div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-1725949-5");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+</body>
+</html>

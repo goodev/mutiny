@@ -1,0 +1,25 @@
+application: mutiny
+version: public
+runtime: python
+api_version: 1
+skip_files: .*COM.*
+
+handlers:
+- url: /m(obile)?
+  static_files: mobile.html
+  upload: mobile\.html
+
+- url: /gears_init\.js
+  static_files: gears_init.js
+  upload: gears_init\.js
+
+- url: /populate
+  login: admin
+  script: main.py
+
+- url: /delete
+  login: admin
+  script: main.py
+
+- url: /.*
+  script: main.py

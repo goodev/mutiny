@@ -1,0 +1,168 @@
+<html>
+<head>
+  <title>Muntiny</title>
+  <style type="text/css" media="screen">
+  body, html {
+    margin: 0px;
+    padding: 0px;
+  }
+  body {
+    text-align: center;
+    background-color: #fff;
+    font-family: sans-serif;
+  }
+  #map {
+    background-image: url("{{mapurl}}");
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: center top;
+    height: 200px;
+    margin: 6px;
+    text-align: left;
+  }
+  #mapnav {
+    width: 300px;
+    height: 200px;
+    margin: auto;
+    font-size: 40px;
+    position: relative;
+  }
+  #mapnav a {
+    text-decoration: none;
+  }
+  #mapnav .left, .right, .up, .down {
+    position: absolute;
+  }
+  #mapnav .left {
+    left: 0px;
+    top: 40%;
+  }
+  #mapnav .right {
+    right: 0px;
+    top: 40%;
+  }
+  #mapnav .up {
+    left: 50%;
+    top: 0px;
+  }
+  #mapnav .down {
+    left: 50%;
+    bottom: 0px;
+  }
+  .route-table {
+    border-collapse: collapse;
+    width: 100%;
+    border-bottom: 1px solid #B4B4B4;
+    font-size: 28px;
+  }
+  .route-table td {
+    text-align: left;
+    padding: 4px;
+    vertical-align: middle;
+  }
+  .route-table tr.route-row {
+    border-top: 1px solid #B4B4B4;
+  }
+  .route-table tr.route-row td {
+    text-align: right !important;
+  }
+  .route-table tr.route-row a {
+    display: block;
+    font-weight: bold;
+    text-decoration: none;
+    color: #081DFF;
+    padding: 5px;
+  }
+  .route-table tbody.zebra-on {
+    background-color: #B4D7DE;
+  }
+  .route-table tbody.zebra-off {
+    background-color: #DFDFDF;
+  }
+  .route-table tr.first-row {
+    border-top: 1px solid #616161 !important;
+    font-size: 0.65em;
+  }
+  .route-table .distance {
+    font-size: 0.65em;
+    text-align: right;
+  }
+  .nav {
+    margin-top: 3px;
+    font-size: 13px;
+  }
+  .nav form {
+    margin: 0px;
+    padding: 0px;
+  }
+  .about {
+    margin-top: 3px;
+    font-size: 10px;
+  }
+  </style>
+</head>
+<body>
+
+<div class="nav">
+<form action="" method="get" accept-charset="utf-8">
+  <input type="hidden" name="lat" value="{{lat}}">
+  <input type="hidden" name="lon" value="{{lon}}">
+  <input type="hidden" name="num" value="{{num}}">
+  <select name="dir" onChange="javascript:this.form.submit();">
+    <option value="in" {% ifequal dir "in" %}selected="selected"{% endifequal %}>Inbound</option>
+    <option value="out" {% ifequal dir "out" %}selected="selected"{% endifequal %}>Outbound</option>
+  </select>
+  <input type="submit" name="go" value="Go">
+</form>
+</div>
+
+{% if num %}
+<div id="map">
+<div id="mapnav">
+<div class="up"><a href="{{up}}">&uarr;<a/></div>
+<div class="left"><a href="{{left}}">&larr;</a></div>
+<div class="right"><a href="{{right}}">&rarr;</a></div>
+<div class="down"><a href="{{down}}">&darr;</a></div>
+</div>
+</div>
+{% endif %}
+
+<div>
+{% if results %}
+<table class="route-table" border="0" cellpadding="0" cellspacing="0">
+  {% for result in results %}
+  <tbody class="{% cycle zebra-on,zebra-off as striping%}">
+    <tr class="first-row">
+      <td><strong>{{forloop.counter}}</strong></td>
+      <td>
+        <div>{{result.title}}</div>
+      </td>
+      <td class="distance">{{result.distance|floatformat:2}}mi.</td>
+    </tr>
+    {% for route in result.routes %}
+    <tr class="route-row">
+      <td colspan="3">
+        <a href="http://www.nextmuni.com/wireless/miniPrediction.shtml?a={{result.system}}&r={{route.route}}&s={{result.stop_id}}">{{route.title}}</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  {% endfor %}
+</table>
+{% else %}
+No results.
+{% endif %}
+</div>
+
+<div class="about">by Mutiny. All data Copyright NextBus inc.</div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-1725949-5");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+</body>
+</html>
